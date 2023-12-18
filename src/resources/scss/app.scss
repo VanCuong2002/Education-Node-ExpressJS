@@ -1,1 +1,60 @@
-@import 'variables';
+@import "variables";
+// Root
+a {
+    text-decoration: none;
+}
+
+// Header
+.header {
+    border-bottom: 1px solid #e8ebed;
+}
+
+.nav-img {
+    width: 120px;
+    height: 100px;
+    margin-right: 20px;
+    margin-bottom: -12px;
+}
+
+.nav-link {
+    display: block;
+    padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
+    font-size: 16px;
+    font-weight: var(--bs-nav-link-font-weight);
+    color: #333;
+    text-decoration: none;
+    background: 0 0;
+    border: 0;
+    font-weight: 600;
+    transition:
+        color 0.15s ease-in-out,
+        background-color 0.15s ease-in-out,
+        border-color 0.15s ease-in-out;
+}
+
+.fa-bell {
+    margin-right: 10px;
+}
+
+// carousel
+.carousel-item img {
+    width: 100%;
+    max-height: 320px;
+    object-fit: cover;
+    border-radius: 30px;
+}
+
+// Trang home
+.heading {
+    color: #242424;
+    font-size: 24px;
+    font-weight: 900;
+    margin-right: auto;
+    margin-top: 16px;
+}
+
+// Footer
+.justified-text {
+    text-indent: 1em;
+    text-align: justify;
+}

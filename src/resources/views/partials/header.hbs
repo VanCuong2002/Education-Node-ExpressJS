@@ -1,52 +1,69 @@
-<nav class='navbar navbar-expand-lg bg-dark navbar-dark'>
-    <div class='container-fluid'>
-        <a class='navbar-brand' href='/'>BLOG</a>
+<nav class="header navbar navbar-expand-lg navbar-black pt-0">
+    <div class="container align-items-end">
+        <a href="/">
+            <img
+                class="nav-img"
+                src="https://dcassetcdn.com/design_img/195577/86231/86231_2214921_195577_image.png"
+                alt="logo"
+            />
+        </a>
+
         <button
-            class='navbar-toggler'
-            type='button'
-            data-bs-toggle='collapse'
-            data-bs-target='#navbarNav'
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarItem"
         >
-            <span class='navbar-toggler-icon'></span>
+            <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class='collapse navbar-collapse' id='navbarNav'>
-            <ul class='navbar-nav me-auto mb-2 mb-lg-0'>
-                <li class='nav-item'>
-                    <a
-                        class='nav-link active'
-                        aria-current='page'
-                        href='/'
-                    >Trang chủ</a>
+        <div class="collapse navbar-collapse" id="navbarItem">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/">Trang chủ</a>
                 </li>
-                <li class='nav-item'>
-                    <a class='nav-link' href='#'>Lộ trình</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Lộ trình</a>
                 </li>
-                <li class='nav-item dropdown'>
-                    <a
-                        class='nav-link dropdown-toggle'
-                        href='#'
-                        role='button'
-                        data-bs-toggle='dropdown'
-                        aria-expanded='false'
-                    >
-                        Khóa học
-                    </a>
-                    <ul class='dropdown-menu'>
-                        <li><a class='dropdown-item' href='#'>Html css</a></li>
-                        <li><a
-                                class='dropdown-item'
-                                href='#'
-                            >Javascript</a></li>
-                        <li><a class='dropdown-item' href='#'>ReactJS</a></li>
-                        <li><a class='dropdown-item' href='#'>NodeJS</a></li>
-                        <li><a class='dropdown-item' href='#'>MongDB</a></li>
-                    </ul>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Học viên</a>
                 </li>
-                <li class='nav-item'>
-                    <a class='nav-link' href='/courses/create'>Thêm khóa học</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Ý kiến học viên</a>
                 </li>
             </ul>
+            <a href="#"><i class="fa-regular fa-bell text-black"></i></a>
+            <div class="dropdown">
+                <button
+                    class="btn dropdown-toggle fw-bolder"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                >
+                    Cường
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <a class="dropdown-item" href="/courses/create">
+                            Kích hoạt khóa học
+                        </a>
+                    </li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                        <a class="dropdown-item" href="/me/stored/courses">
+                            Khóa học của tôi
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="me/stored/news">
+                            Bài viết của tôi
+                        </a>
+                    </li>
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li><a class="dropdown-item" href="#">Đăng xuất</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 </nav>
