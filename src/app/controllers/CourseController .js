@@ -25,7 +25,7 @@ class CourseController {
         const course = new Course(formData);
         course
             .save()
-            .then(() => res.redirect("/"))
+            .then(() => res.redirect("/me/stored/courses"))
             .catch((error) => {
                 console.error(error);
                 res.status(500).send("Internal Server Error");
@@ -48,6 +48,61 @@ class CourseController {
         Course.updateOne({ _id: req.params.id }, req.body)
             .then(() => res.redirect("/me/stored/courses"))
             .catch(next);
+    }
+
+    // [PATCH], /courses/:id/restore
+    restore(req, res, next) {
+        Course.restore({ _id: req.params.id })
+            .then(() => res.redirect("back"))
+            .catch(next);
+    }
+
+    // [DETELE], /courses/:id
+    detele(req, res, next) {
+        Course.delete({ _id: req.params.id })
+            .then(() => res.redirect("back"))
+            .catch(next);
+    }
+
+    // [DETELE], /courses/:id/force
+    destroy(req, res, next) {
+        Course.deleteOne({ _id: req.params.id })
+            .then(() => res.redirect("back"))
+            .catch(next);
+    }
+
+    // [POST], /courses/handle-form-action
+    handleFormCourse(req, res, next) {
+        switch (req.body.action) {
+            case "delete":
+                Course.delete({ _id: { $in: req.body.itemCheckbox } })
+                    .then(() => res.redirect("back"))
+                    .catch(next);
+                break;
+
+            default:
+                res.json({ message: "Error form" });
+        }
+    }
+
+    // [POST], /courses/handle-form-trash
+    handleFormTrash(req, res, next) {
+        switch (req.body.action) {
+            case "restore":
+                Course.restore({ _id: { $in: req.body.itemCheckbox } })
+                    .then(() => res.redirect("back"))
+                    .catch(next);
+                break;
+
+            case "delete":
+                Course.deleteMany({ _id: { $in: req.body.itemCheckbox } })
+                    .then(() => res.redirect("back"))
+                    .catch(next);
+                break;
+
+            default:
+                res.json({ message: "Error form" });
+        }
     }
 }
 

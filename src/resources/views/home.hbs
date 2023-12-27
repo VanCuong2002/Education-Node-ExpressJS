@@ -9,23 +9,22 @@
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <img
-                        src="https://files.fullstack.edu.vn/f8-prod/courses/27/64e184ee5d7a2.png"
-                        class="d-block w-100"
-                        alt="..."
+                        src="https://tuhoclaptrinh.edu.vn/upload/post/2022/06/08/khoa-hoc-html-va-css-co-ban-20220608151723-480219.png"
+                        alt="html-css"
                     />
                 </div>
                 <div class="carousel-item">
                     <img
-                        src="https://files.fullstack.edu.vn/f8-prod/courses/1.png"
+                        src="https://tenten.vn/tin-tuc/wp-content/uploads/2022/06/giai-dap-nhung-cau-hoi-ve-javascript-4.jpeg"
                         class="d-block w-100"
-                        alt="..."
+                        alt="js"
                     />
                 </div>
                 <div class="carousel-item">
                     <img
                         src="https://files.fullstack.edu.vn/f8-prod/courses/13/13.png"
                         class="d-block w-100"
-                        alt="..."
+                        alt="reactjs"
                     />
                 </div>
             </div>
@@ -57,7 +56,7 @@
         </div>
     </div>
     <div class="row">
-        <h2 class="heading">Các khóa học tại Dev-C</h2>
+        <h2 class="heading">Khóa học miễn phí</h2>
         {{#each courses}}
             <div class="col-sm-6 col-md-4 col-lg-3 mt-2">
                 <div class="card mb-4">
@@ -70,12 +69,11 @@
                     </a>
 
                     <div class="card-body">
-                        <a href="/courses/{{this.slug}}">
-                            <h5 class="card-title">{{this.name}}</h5>
-                        </a>
-
+                        <h5 class="card-title text-info">{{this.name}}</h5>
                         <p class="card-text">{{this.description}}</p>
-                        <a href="#" class="btn btn-primary">Buy</a>
+                        <a href="/courses/{{this.slug}}">
+                            <button class="btn btn-primary">Học ngay</button>
+                        </a>
                     </div>
                 </div>
             </div>

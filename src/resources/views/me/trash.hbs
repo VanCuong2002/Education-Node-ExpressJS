@@ -1,15 +1,8 @@
-<form class="container mt-3" method="POST" action="/courses/handle-form-course">
-    <h3 class="heading-me-course text-center mt-3">Bạn chưa kích hoạt khóa học nào</h3>
-    <div class="d-flex justify-content-between align-items-center">
-        <a href="/courses/create" class="btn btn-plus">
-            <i class="fa-solid fa-plus icon-plus"></i>
-            <span>Mới</span>
-        </a>
-        <a href="/me/trash/courses">
-            <i class="fa-solid fa-trash-can"></i>
-            <span>Thùng rác ({{deletedCount}})</span>
-        </a>
-    </div>
+<form class="container mt-3" method="POST"  action="/courses/handle-form-trash">
+    <h3 class="heading-trash-course text-center mt-3">Thùng rác trống</h3>
+    <a href="/me/stored/courses" class="d-block mb-3">
+        <i class="fa-solid fa-arrow-left mx-1"></i>Quay lại
+    </a>
     <div class="my-3 align-items-center action-courses">
         <div>
             <input type="checkbox" name="checkbox" id="checkbox-all">
@@ -17,6 +10,7 @@
         </div>
         <select class="form-select form-select-action mx-3" name="action" required>
             <option value="" selected>-- Hành động --</option>
+            <option value="restore">Khôi phục</option>
             <option value="delete">Xóa</option>
         </select>
         <button class="btn btn-primary btn-execute" disabled>Thực hiện</button>
@@ -28,51 +22,49 @@
                 <th scope="col">Stt</th>
                 <th scope="col">Tên khóa học</th>
                 <th scope="col">Trình độ</th>
-                <th scope="col">
-                    Thời gian tạo
-                    <a href="">
-                        <i class="fa-solid fa-up-down ms-1"></i>
-                    </a>
-                </th>
+                <th scope="col">Thời gian xoá</th>
                 <th class="text-center" scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
             {{#each courses}}
-                <tr>
-                    <td><input type="checkbox" name="itemCheckbox" value="{{this._id}}"></td>
-                    <td scope="row">{{sum @index 1}}</td>
-                    <td>{{this.name}}</td>
-                    <td>{{this.level}}</td>
-                    <td>{{this.createdAt}}</td>
-                    <td class="text-center">
-                        <a href="/courses/{{this._id}}/edit">
-                            <i class="fa-solid fa-pen text-info me-1"></i>
-                        </a>
-                        <a
-                            data-bs-toggle="modal"
-                            data-bs-id="{{this._id}}"
-                            data-bs-target="#modal-cofirm-course"
-                        >
-                            <i class="fa-solid fa-trash text-danger ms-1"></i>
-                        </a>
-                    </td>
-                </tr>
+                {{#if deleted}}
+                    <tr>
+                        <td><input type="checkbox" name="itemCheckbox" value="{{this._id}}"></td>
+                        <td scope="row">{{sum @index 1}}</td>
+                        <td>{{this.name}}</td>
+                        <td>{{this.level}}</td>
+                        <td>{{this.deletedAt}}</td>
+                        <td class="text-center">
+                            <a href="" class="btn-restore" data-id="{{this._id}}">
+                                <i class="fa-solid fa-clock-rotate-left me-1 text-secondary"></i>
+                            </a>
+                            <a 
+                                href=""
+                                data-bs-toggle="modal"
+                                data-bs-id="{{this._id}}"
+                                data-bs-target="#modal-cofirm-course"
+                            >
+                                <i class="fa-solid fa-trash text-danger ms-1"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {{/if}}
             {{/each}}
         </tbody>
     </table>
 
-    {{!-- Hiển thị khi không có khóa học nào --}}
+    {{! Hiển thị khi không có khóa học nào }}
     <div id="no-course-image" class="text-center">
         <img
-            src="https://365cafe.vn/assets/images/no-cart.png"
-            alt="Chưa có khóa học nào" 
+            src="https://png.pngtree.com/png-vector/20230316/ourmid/pngtree-trash-line-icon-vector-png-image_6652834.png"
+            alt="Thùng rác trống"
             class="img-fluid"
         />
     </div>
 </form>
 
-{{!-- Cofirm delete course --}}
+{{! Cofirm delete course }}
 <div class="modal" id="modal-cofirm-course" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -86,10 +78,13 @@
                 ></button>
             </div>
             <div class="modal-body">
-                <p>Bạn có chắc chắn muốn xóa khóa học không?</p>
+                <p>Hành động này sẽ xóa vĩnh viễn khóa học! Bạn có chắc chắn muốn xóa khóa học không?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn-delete-course btn btn-danger">Xóa</button>
+                <button
+                    type="button"
+                    class="btn-delete-course btn btn-danger"
+                >Xóa vĩnh viễn</button>
                 <button
                     type="button"
                     class="btn btn-primary"
@@ -100,34 +95,46 @@
     </div>
 </div>
 
-{{!-- Form hidden --}}
 <form method="POST" name="delete-form"></form>
+<form method="POST" name="restore-form"></form>
 
 <script>
-    // 1. Khai báo biến
+    // 1. Khái báo biến
     var idCourse;
     const deleteForm = document.forms['delete-form'];
+    const restoreForm = document.forms['restore-form'];
     const btnExecute = document.querySelector('.btn-execute');
     const checkboxAll = document.getElementById('checkbox-all');
+    const btnRestore = document.querySelectorAll(".btn-restore");
     const btnDelete = document.querySelector('.btn-delete-course');
     const modalCofirm = document.getElementById('modal-cofirm-course');
     const itemCheckboxes = document.querySelectorAll('input[name="itemCheckbox"]');
 
     // 2. Show modal confirm
-    if (modalCofirm) { 
+    if (modalCofirm) {
         modalCofirm.addEventListener('show.bs.modal', e => {
-            const button = e.relatedTarget; 
+            const button = e.relatedTarget;
             idCourse = button.getAttribute('data-bs-id');
-        }); 
+        });
     }
 
-    // 3. Thực hiện xóa
-    btnDelete.addEventListener('click', () => {
-        deleteForm.action = '/courses/' + idCourse + '?_method=DELETE';
-        deleteForm.submit();
+    // 3. Thực hiện khôi phục
+    btnRestore.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const dataId = btn.getAttribute('data-id');
+            restoreForm.action = '/courses/' + dataId + '/restore?_method=PATCH';
+            restoreForm.submit();
+        });
     });
 
-    // 4. Thực hiện click checkbox       
+    // 4. Thực hiện xóa
+    btnDelete.addEventListener('click', () => {
+        deleteForm.action = '/courses/' + idCourse + '/force?_method=DELETE';
+        deleteForm.submit();
+    });
+    
+    // 5. Thực hiện click checkbox       
     checkboxAll.addEventListener('change', () => {
         const isCheckedAll = checkboxAll.checked;
         itemCheckboxes.forEach((checkbox) => {
@@ -148,12 +155,12 @@
         const checkedCount = document.querySelectorAll('input[name="itemCheckbox"]:checked').length;
         btnExecute.disabled = checkedCount === 0;
     }
-    
-    // Kiểm tra số lượng khóa học => nếu có khóa học, ẩn ảnh và hiển thị bảng
-    if ({{courses.length}} > 0) {
+
+    // Nếu có khóa học, ẩn ảnh và hiển thị bảng
+    if ({{deletedCount}} > 0) {
         document.getElementById('course-table').style.display = 'table';
         document.querySelector('.action-courses').style.display = 'flex';
         document.getElementById('no-course-image').style.display = 'none';
-        document.querySelector('.heading-me-course').innerHTML = "Khóa học của tôi";
+        document.querySelector('.heading-trash-course').innerHTML = "Khóa học đã xóa";
     }
 </script>
