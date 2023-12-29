@@ -27,12 +27,13 @@
                 <th>#</th>
                 <th scope="col">Stt</th>
                 <th scope="col">Tên khóa học</th>
-                <th scope="col">Trình độ</th>
+                <th scope="col">
+                    Trình độ
+                    {{{sortable 'level' _sort}}}
+                </th>
                 <th scope="col">
                     Thời gian tạo
-                    <a href="">
-                        <i class="fa-solid fa-up-down ms-1"></i>
-                    </a>
+                    {{{sortable 'createdAt' _sort}}}
                 </th>
                 <th class="text-center" scope="col">Action</th>
             </tr>
